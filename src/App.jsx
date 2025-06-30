@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaInstagram, FaWhatsapp, FaGithub, FaMoon, FaSun } from 'react-icons/fa';
 import fundoBg from './image/fundo-linktree3.png'; // ajuste para o seu arquivo
@@ -245,9 +245,14 @@ export default function App() {
   // Tema: sistema + override
   const [dark, setDark] = useState(false);
   // Analytics
-  const [clicks, setClicks] = useState(() =>
-    JSON.parse(localStorage.getItem('linktree-clicks') || '{}')
-  );
+  const [clicks, setClicks] = useState(() => {
+    try {
+      const saved = localStorage.getItem('linktree-clicks');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
 
   // Checa tema na primeira montagem
   useEffect(() => {
@@ -269,16 +274,6 @@ export default function App() {
     localStorage.setItem('linktree-clicks', JSON.stringify(clicks));
   }, [clicks]);
 
-  // Teclado: foca switch e navega com tab/enter/space
-  const switchRef = useRef();
-
-  const handleSwitchKey = (e) => {
-    if (e.key === ' ' || e.key === 'Enter') {
-      setDark((d) => !d);
-      e.preventDefault();
-    }
-  };
-
   // Analytics click
   const handleClick = (id) => {
     setClicks((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
@@ -294,21 +289,25 @@ export default function App() {
         <SwitchButton
           aria-label={dark ? "Modo claro" : "Modo escuro"}
           dark={dark ? 1 : 0}
-          ref={switchRef}
           tabIndex={0}
           onClick={() => setDark((v) => !v)}
-          onKeyDown={handleSwitchKey}
+          onKeyDown={e => {
+            if (e.key === ' ' || e.key === 'Spacebar') {
+              e.preventDefault();
+              setDark((d) => !d);
+            }
+          }}
           title={dark ? "Modo claro" : "Modo escuro"}
         >
           {dark ? <FaSun /> : <FaMoon />}
         </SwitchButton>
-        <Avatar src={avatarImg} alt="Avatar castrodev" dark={dark ? 1 : 0} />
+        <Avatar src={avatarImg} alt="Foto de perfil de Rafael Castro" dark={dark ? 1 : 0} />
         <Marca dark={dark ? 1 : 0}>castrodev</Marca>
         <Subtitulo dark={dark ? 1 : 0}>
           Front-end Developer • React & UI • Brasil
         </Subtitulo>
         <LinksContainer>
-          {LINKS.map(({ href, label, icon:  id }) => (
+          {LINKS.map(({ href, label, icon: Icon, id }) => (
             <LinkButton
               href={href}
               key={id}
@@ -320,12 +319,14 @@ export default function App() {
               tabIndex={0}
               onClick={() => handleClick(id)}
               onKeyDown={e => {
-                if (e.key === 'Enter' || e.key === ' ') {
+                if (e.key === ' ') {
+                  e.preventDefault();
                   handleClick(id);
+                  e.currentTarget.click();
                 }
               }}
             >
-              <IconBox><Icon /></IconBox>
+              <IconBox>{Icon && <Icon />}</IconBox>
               {label}
               {isAdmin && typeof clicks[id] === "number" ? (
                 <Clicks dark={dark ? 1 : 0}>

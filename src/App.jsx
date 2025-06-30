@@ -7,15 +7,22 @@ import avatarImg from './image/fundo-linktree.jpg';
 
 // ====== Styled Components com Glassmorphism ======
 const Background = styled.div`
-  min-height: 100vh;
+  position: fixed;        // era relative
+  top: 0;
+  left: 0;
   width: 100vw;
-  background: url(${fundoBg}) center center / cover no-repeat fixed;
+  height: 100vh;
+  background: url(${fundoBg}) center center / cover no-repeat;
+  z-index: 0;
+  overflow: hidden;
+  min-height: 100vh;
+  min-width: 100vw;
+  /* O resto igual */
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
 `;
+
 
 const Overlay = styled.div`
   position: absolute;

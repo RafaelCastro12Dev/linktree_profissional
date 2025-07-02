@@ -7,21 +7,19 @@ import avatarImg from './image/fundo-linktree.jpg';
 
 // ====== Styled Components com Glassmorphism ======
 const Background = styled.div`
-  position: fixed;        // era relative
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background: url(${fundoBg}) center center / cover no-repeat;
   z-index: 0;
-  overflow: hidden;
-  min-height: 100vh;
-  min-width: 100vw;
-  /* O resto igual */
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 `;
+;
 
 
 const Overlay = styled.div`
@@ -32,29 +30,33 @@ const Overlay = styled.div`
 `;
 
 const Card = styled(motion.div)`
- position: relative;
+  position: relative;
   z-index: 2;
   background: ${({ dark }) =>
-  dark
-    ? 'rgba(28,28,28,0.56)'
-    : 'rgba(255,255,255,0.63)'};
-box-shadow: 0 1.5px 4px rgba(0,0,0,0.08);
-backdrop-filter: blur(32px); // aumenta o blur do fundo
-  padding: 2rem 1.5rem 1.7rem 1.5rem; // padding ajustado, mas confortável
-  max-width: 330px; /* opcional: deixa menor no desktop */
+    dark
+      ? 'rgba(28,28,28,0.56)'
+      : 'rgba(255,255,255,0.63)'};
+  box-shadow: 0 1.5px 4px rgba(0,0,0,0.08);
+  backdrop-filter: blur(32px);
+  padding: 2rem 3vw 1.7rem 3vw;   // padding lateral em VW!
+  width: 100%;
+  max-width: 340px;
+  min-width: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 1.2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem; /* gap menor entre os elementos */
+  gap: 1.2rem;
   border: ${({ dark }) => (dark ? '2.5px solid #232323' : '2.5px solid #f7f7f7')};
+  box-sizing: border-box; // garante padding correto
   transition: background 0.4s, border 0.4s, box-shadow 0.3s;
-  backdrop-filter: blur(24px);
 
-  @media (max-width: 600px) {
-    max-width: 97vw;
-    padding: 1.8rem 0.8rem 1.8rem 0.8rem;
-    border-radius: 1.1rem;
-    gap: 1.3rem;
+  @media (max-width: 360px) {
+    padding-left: 2vw;
+    padding-right: 2vw;
+    max-width: 98vw;
   }
 `;
 

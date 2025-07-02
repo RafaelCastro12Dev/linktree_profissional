@@ -27,37 +27,37 @@ const Background = styled.div`
 const Overlay = styled.div`
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.68);
+  background: rgba(0, 0, 0, 0.45);
   z-index: 1;
 `;
 
 const Card = styled(motion.div)`
-  position: relative;
+ position: relative;
   z-index: 2;
   background: ${({ dark }) =>
-    dark
-      ? 'rgba(28,28,28,0.85)'
-      : 'rgba(255,255,255,0.90)'};
-  border-radius: 2.4rem;
-  box-shadow: 0 10px 44px rgba(0,0,0,0.20);
-  padding: 4.4rem 3.4rem 3.1rem 3.4rem;
-  width: 100%;
-  max-width: 420px;
+  dark
+    ? 'rgba(28,28,28,0.56)'
+    : 'rgba(255,255,255,0.63)'};
+box-shadow: 0 1.5px 4px rgba(0,0,0,0.08);
+backdrop-filter: blur(32px); // aumenta o blur do fundo
+  padding: 2rem 1.5rem 1.7rem 1.5rem; // padding ajustado, mas confortável
+  max-width: 330px; /* opcional: deixa menor no desktop */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem;
+  gap: 1.5rem; /* gap menor entre os elementos */
   border: ${({ dark }) => (dark ? '2.5px solid #232323' : '2.5px solid #f7f7f7')};
   transition: background 0.4s, border 0.4s, box-shadow 0.3s;
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(24px);
 
   @media (max-width: 600px) {
-    max-width: 96vw;
-    padding: 3.1rem 1.1rem 2.1rem 1.1rem;
-    border-radius: 1.4rem;
-    gap: 2.5rem;
+    max-width: 97vw;
+    padding: 1.8rem 0.8rem 1.8rem 0.8rem;
+    border-radius: 1.1rem;
+    gap: 1.3rem;
   }
 `;
+
 
 const Avatar = styled.img`
   width: 140px;
@@ -135,7 +135,7 @@ const LinksContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.18rem;
+  gap: 1.10rem;
   margin-top: 0.3rem;
   align-items: center;
 `;

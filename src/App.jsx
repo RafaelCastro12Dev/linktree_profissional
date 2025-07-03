@@ -2,25 +2,23 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaInstagram, FaWhatsapp, FaGithub, FaMoon, FaSun } from 'react-icons/fa';
-import fundoBg from './image/fundo-linktree3.png'; // ajuste para o seu arquivo
 import avatarImg from './image/fundo-linktree.jpg';
+import CodeLinesBackground from './CodeLinesBackground';
 
-// ====== Styled Components com Glassmorphism ======
+// ====== Styled Components ======
 const Background = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url(${fundoBg}) center center / cover no-repeat;
+  background: #111; // preto puro
   z-index: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 `;
-;
-
 
 const Overlay = styled.div`
   position: absolute;
@@ -38,7 +36,7 @@ const Card = styled(motion.div)`
       : 'rgba(255,255,255,0.63)'};
   box-shadow: 0 1.5px 4px rgba(0,0,0,0.08);
   backdrop-filter: blur(32px);
-  padding: 2rem 3vw 1.7rem 3vw;   // padding lateral em VW!
+  padding: 2rem 3vw 1.7rem 3vw;
   width: 100%;
   max-width: 340px;
   min-width: 0;
@@ -50,7 +48,7 @@ const Card = styled(motion.div)`
   align-items: center;
   gap: 1.2rem;
   border: ${({ dark }) => (dark ? '2.5px solid #232323' : '2.5px solid #f7f7f7')};
-  box-sizing: border-box; // garante padding correto
+  box-sizing: border-box;
   transition: background 0.4s, border 0.4s, box-shadow 0.3s;
 
   @media (max-width: 360px) {
@@ -59,7 +57,6 @@ const Card = styled(motion.div)`
     max-width: 98vw;
   }
 `;
-
 
 const Avatar = styled.img`
   width: 140px;
@@ -251,9 +248,7 @@ function getSystemTheme() {
 }
 
 export default function App() {
-  // Tema: sistema + override
   const [dark, setDark] = useState(false);
-  // Analytics
   const [clicks, setClicks] = useState(() => {
     try {
       const saved = localStorage.getItem('linktree-clicks');
@@ -263,7 +258,6 @@ export default function App() {
     }
   });
 
-  // Checa tema na primeira montagem
   useEffect(() => {
     const saved = localStorage.getItem('linktree-theme');
     if (saved === 'dark' || saved === 'light') {
@@ -273,26 +267,23 @@ export default function App() {
     }
   }, []);
 
-  // Salva override manual
   useEffect(() => {
     localStorage.setItem('linktree-theme', dark ? 'dark' : 'light');
   }, [dark]);
 
-  // Salva analytics
   useEffect(() => {
     localStorage.setItem('linktree-clicks', JSON.stringify(clicks));
   }, [clicks]);
 
-  // Analytics click
   const handleClick = (id) => {
     setClicks((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
   };
 
-  // Só mostra contador se acessar com ?admin=1412
   const isAdmin = window.location.search.includes('admin=1412');
 
   return (
     <Background>
+      <CodeLinesBackground />
       <Overlay />
       <Card {...cardMotion} dark={dark ? 1 : 0}>
         <SwitchButton
